@@ -1,0 +1,49 @@
+# Databricks Asset Bundle configuration, more info here: https://docs.databricks.com/en/dev-tools/bundles/settings.html
+bundle:
+  name: "testSetup"
+
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+
+variables:
+  my_test:
+    description: just test
+    default: aaa
+  workspace:
+    description: workspace to use
+    default: workspace
+  dev_stage: 
+    description: catalogue
+    default: ops
+  dev_gold: 
+    description: bbb
+    default: workspace
+  dev_stage_etl:
+    description: aaa
+    type: string
+    default: etl
+  my_cluster_id:
+    description: lookup for cluster id based on name
+    lookup:
+      cluster: Serverless
+
+targets:
+  # The 'dev' target, for development purposes. This target is the default.
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-370f7e99-0261.cloud.databricks.com
+
+  # The 'prod' target, used for production deployment.
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-370f7e99-0261.cloud.databricks.com
+      # We always use /Users/ih.kii777@gmail.com for all resources to make sure we only have a single copy.
+      root_path: /Users/ih.kii777@gmail.com/.bundle/${bundle.name}/${bundle.target}
+    run_as:
+      # This runs as ih.kii777@gmail.com in production. We could also use a service principal here,
+      # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
+      user_name: ih.kii777@gmail.com
