@@ -81,3 +81,10 @@ targets:
       target_catalog_bronze: ${var.catalogue_bronze_name_prod}
       target_database_bronze: ${var.database_bronze_name_prod}
             
+    resources:
+      jobs:
+        ETLRunner:
+          git_source:
+            git_url: https://github.com/ihor123/databricksLessons20250715.git
+            git_provider: gitHub
+            git_branch: master
