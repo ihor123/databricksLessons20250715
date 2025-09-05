@@ -1,0 +1,21 @@
+
+resources:
+  jobs:
+    ETLRunner:
+      name: ${bundle.target}_ETLRunnerJob_${workspace.current_user.userName}
+      tasks:
+        - task_key: RunnerTask
+          notebook_task:
+            notebook_path: ../src/RunRunner.ipynb
+            source: WORKSPACE
+      queue:
+        enabled: true
+      parameters:
+        - name: catalogue_bronze_name
+          default: ${var.target_catalog_bronze}
+        - name: database_bronze_name
+          default: ${var.target_database_bronze}
+        - name: display_target
+          default: ${bundle.target}
+      performance_target: PERFORMANCE_OPTIMIZED
+

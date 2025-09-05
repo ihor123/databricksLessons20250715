@@ -5,29 +5,50 @@ bundle:
 include:
   - resources/*.yml
   - resources/*/*.yml
+  - "./resources/databricks_TestBundle2_jobs.yml"
 
 
-resources:
-  jobs:
-    ETLRunner:
-      name: ETLRunnerJob
-      tasks:
-        - task_key: RunnerTask
-          notebook_task:
-            notebook_path: ./src/RunRunner.ipynb
-            source: WORKSPACE
-      queue:
-        enabled: true
-      parameters:
-        - name: catalogue_bronze_name
-          default: workspace
-        - name: database_bronze_name
-          default: ops
-        - name: display_target
-          default: development
-      performance_target: PERFORMANCE_OPTIMIZED
+variables:
+  config_user_name:
+    description: Username to use to run as
+    default: ${workspace.current_user.short_name}
 
+  catalogue_bronze_name_dev:
+    description: Dev catalogue name
+    default: workspace
 
+  catalogue_bronze_name_stage:
+    description: Dev catalogue name
+    default: workspace
+
+  catalogue_bronze_name_prod:
+    description: Dev catalogue name
+    default: ops
+
+  database_bronze_name_dev:
+    description: Dev database name
+    default: default
+
+  database_bronze_name_stage:
+    description: Dev database name
+    default: ops
+
+  database_bronze_name_prod:
+    description: Dev database name
+    default: etl
+
+  target_catalog_bronze:
+    description: target catalogue
+    default: ${var.catalogue_bronze_name_dev}
+
+  target_database_bronze:
+    description: database
+    default: ${var.database_bronze_name_dev}
+
+  config_cluster:
+    description: cluster id
+    lookup:
+      cluster: Serverless
 
 targets:
   # The 'dev' target, for development purposes. This target is the default.
@@ -36,7 +57,13 @@ targets:
     default: true
     workspace:
       host: https://dbc-370f7e99-0261.cloud.databricks.com
-      root_path: /Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    resources:
+      jobs:
+        ETLRunner:
+          tasks:
+            - task_key: RunnerTask
+              existing_cluster_id: ${var.config_cluster}
 
   # The 'prod' target, used for production deployment.
   prod:
@@ -49,3 +76,8 @@ targets:
       # This runs as ih.kii777@gmail.com in production. We could also use a service principal here,
       # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
       user_name: ih.kii777@gmail.com
+
+    variables:
+      target_catalog_bronze: ${var.catalogue_bronze_name_prod}
+      target_database_bronze: ${var.database_bronze_name_prod}
+            
