@@ -31,7 +31,7 @@ resources:
 
 targets:
   # The 'dev' target, for development purposes. This target is the default.
-  dev:
+  development:
     mode: development
     default: true
     workspace:
