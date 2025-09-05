@@ -27,7 +27,7 @@ variables:
 
   database_bronze_name_dev:
     description: Dev database name
-    default: default
+    default: ops
 
   database_bronze_name_stage:
     description: Dev database name
