@@ -1,7 +1,7 @@
 from pyspark.sql.functions import current_timestamp, lit, year, month, dayofmonth, round, rand, col, from_unixtime
 from datetime import datetime
 from pyspark.sql.types import StringType, TimestampType, BooleanType, StructType, StructField, DoubleType, LongType
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, DataFrame
 
 from typing import Optional
 

@@ -1,0 +1,14 @@
+# The main pipeline for TestBundle3
+resources:
+  pipelines:
+    TestBundle3_pipeline:
+      name: TestBundle3_pipeline
+      catalog: workspace
+      schema: TestBundle3_${bundle.target}
+      serverless: true
+      libraries:
+        - notebook:
+            path: ../src/pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src

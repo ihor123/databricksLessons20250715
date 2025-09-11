@@ -1,0 +1,25 @@
+
+resources:
+  jobs:
+    ETLRunner222:
+      name: ${bundle.target}_ETLRunnerJob222_${workspace.current_user.userName}
+      tasks:
+        - task_key: RunnerTask
+          notebook_task:
+            notebook_path: TestBundle3/src/RunRunner
+            source: GIT
+      git_source:
+        git_url: https://github.com/ihor123/databricksLessons20250715.git
+        git_provider: gitHub
+        git_branch: dev
+      queue:
+        enabled: true
+      parameters:
+        - name: catalogue_bronze_name
+          default: ${var.target_catalog_bronze}
+        - name: database_bronze_name
+          default: ${var.target_database_bronze}
+        - name: display_target
+          default: ${bundle.target}
+      performance_target: PERFORMANCE_OPTIMIZED
+
