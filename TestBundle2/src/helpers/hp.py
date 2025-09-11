@@ -9,6 +9,7 @@ class hp:
     catalogue = "workspace"
     database = "default"
     display_target = "development"
+    spark = None
 
     def setup(self, catalogue: Optional[str] = "workspace", database: Optional[str] = "default", display_target: Optional[str] = "development"):
         s = None
@@ -46,8 +47,8 @@ class hp:
             self.display_target = display_target
 
 
-        spark.sql(f'USE CATALOG {self.catalogue}')
-        spark.sql(f'USE DATABASE {self.database}')
+        self.spark.sql(f'USE CATALOG {self.catalogue}')
+        self.spark.sql(f'USE DATABASE {self.database}')
 
 
         #spark.sql("DROP VARIABLE IF EXISTS catalogue_bronze_name")
@@ -57,23 +58,23 @@ class hp:
         #spark.sql("DECLARE VARIABLE database_bronze_name STRING")
         #spark.sql("DECLARE VARIABLE display_target STRING")
         
-        spark.sql("drop temporary variable if exists catalogue_bronze_name;")
-        spark.sql("declare variable catalogue_bronze_name string;")
-        spark.sql(f"set variable catalogue_bronze_name='{self.catalogue}';")          
+        self.spark.sql("drop temporary variable if exists catalogue_bronze_name;")
+        self.spark.sql("declare variable catalogue_bronze_name string;")
+        self.spark.sql(f"set variable catalogue_bronze_name='{self.catalogue}';")          
 
-        spark.sql("drop temporary variable if exists database_bronze_name;")
-        spark.sql("declare variable database_bronze_name string;")
-        spark.sql(f"set variable database_bronze_name='{self.database}';")          
+        self.spark.sql("drop temporary variable if exists database_bronze_name;")
+        self.spark.sql("declare variable database_bronze_name string;")
+        self.spark.sql(f"set variable database_bronze_name='{self.database}';")          
 
-        spark.sql("drop temporary variable if exists display_target;")
-        spark.sql("declare variable display_target string;")
-        spark.sql(f"set variable display_target='{self.display_target}';")   
+        self.spark.sql("drop temporary variable if exists display_target;")
+        self.spark.sql("declare variable display_target string;")
+        self.spark.sql(f"set variable display_target='{self.display_target}';")   
 
-    def __init__(self, catalogue: Optional[str] = None, database: Optional[str] = None, display_target: Optional[str] = None):
+    def __init__(self, spark, catalogue: Optional[str] = None, database: Optional[str] = None, display_target: Optional[str] = None):
 
+        self.spark = spark
         #self.setup(catalogue = catalogue, database = database, display_target = display_target)
 
-        pass
 
     def add_standard_columns(self, df, createdBy: Optional[str] = None, modifiedBy: Optional[str] = None):
         df = df.withColumn('timestamp', current_timestamp())
