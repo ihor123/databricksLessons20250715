@@ -5,50 +5,9 @@ bundle:
 include:
   - resources/*.yml
   - resources/*/*.yml
-  - "./resources/databricks_TestBundle2_jobs.yml"
+  - "./resources/jobs/ETLRunner.job.yml"
+  - "./resources/jobs/ETLRunner222.job.yml"
 
-
-variables:
-  config_user_name:
-    description: Username to use to run as
-    default: ${workspace.current_user.short_name}
-
-  catalogue_bronze_name_dev:
-    description: Dev catalogue name
-    default: workspace
-
-  catalogue_bronze_name_stage:
-    description: Dev catalogue name
-    default: workspace
-
-  catalogue_bronze_name_prod:
-    description: Dev catalogue name
-    default: ops
-
-  database_bronze_name_dev:
-    description: Dev database name
-    default: ops
-
-  database_bronze_name_stage:
-    description: Dev database name
-    default: ops
-
-  database_bronze_name_prod:
-    description: Dev database name
-    default: etl
-
-  target_catalog_bronze:
-    description: target catalogue
-    default: ${var.catalogue_bronze_name_dev}
-
-  target_database_bronze:
-    description: database
-    default: ${var.database_bronze_name_dev}
-
-  # config_cluster:
-  #   description: cluster id
-  #   lookup:
-  #     cluster: default
 
 targets:
   # The 'dev' target, for development purposes. This target is the default.
