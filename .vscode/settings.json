@@ -20,5 +20,10 @@
             "host": "dbc-370f7e99-0261.cloud.databricks.com",
             "path": "/sql/1.0/warehouses/264516e9acf62dd1"
         }
-    ]
+    ],
+    "python.testing.pytestArgs": [
+        "TestBundle3"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
